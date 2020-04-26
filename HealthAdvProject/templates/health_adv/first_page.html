@@ -1,0 +1,26 @@
+{% extends "health_adv/base.html" %}
+{% load bootstrap4 %}
+{% load staticfiles %}
+{% block header %}
+<form method="POST" class="form-inline text-right" action="{% url 'accounts:login' %}">
+	{% csrf_token %}
+	{% bootstrap_form login_form %}
+	<input type="submit" value="Login" class="btn btn-danger">
+</form>
+{% endblock %}
+
+{% block sidebar %}
+<h1>Sign Up</h1>
+<form method="POST" action="{% url 'accounts:signup' %}">
+		{% csrf_token %}
+		{% bootstrap_form signup_form %}
+		<input type="submit" value="Sign Up" class="btn btn-primary">
+</form>
+{% endblock %}
+
+{% block mainpage %}
+<h1>Health Advisory System</h1>
+<p>This System manges the health of the person by showing the analysis of its health.</p>
+<img src="{% static 'images/health-advisory-copy.jpg' %}" id="img2" class="img-responsive" alt="Responsive image" height="560px" width="900px">
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "health_adv/base.html" %}
+
+{% block content %}
+<h1>Welcome to the home page</h1>
+<div class="container">
+  {% if user.is_authenticated %}
+  <h3>You are now logged in.</h3>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "health_adv/base.html" %}
+{% load bootstrap4 %}
+{% load staticfiles %}
+
+{% block mainpage %}
+  <h1>Welcome! Please Enter your details.</h1>
+  <form method="post">
+    {% csrf_token %}
+		{% bootstrap_form form %}
+		<input type="submit" value="Submit Details" class="btn btn-primary">
+  </form>
+{% endblock %}
