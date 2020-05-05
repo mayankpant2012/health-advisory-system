@@ -4,32 +4,21 @@ from django.utils import timezone
 
 class UserProfileInfo(models.Model):
     # Create relationship (don't inherit from User!)
-    user = models.OneToOneField(User, on_delete='CASCADE')
+    user = models.OneToOneField(User,
+                                on_delete='CASCADE',
+                                related_name='info',)
 
     # Add any additional attributes you want
     dob = models.DateField()
     age =  models.PositiveSmallIntegerField()
     GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
+        (0, 'Female'),
+        (1, 'Male'),
     )
 
-    CHEST_PAIN_CHOICES = (
-        (0, 'None'),
-        (1, 'Low'),
-        (2, 'Medium'),
-        (3, 'Severe'),
-    )
-
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    weight = models.PositiveSmallIntegerField()
+    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
     height = models.PositiveSmallIntegerField()
-    chest_pain = models.PositiveSmallIntegerField(choices=CHEST_PAIN_CHOICES,
-                                                  default=1)
-    glucose = models.PositiveSmallIntegerField(default=0)
-    cholestrol = models.PositiveSmallIntegerField(default=0)
-    systolic_bp = models.PositiveSmallIntegerField(default=0)
-    diastolic_bp = models.PositiveSmallIntegerField(default=0)
+
     # pip install pillow to use this!
     # Optional: pip install pillow --global-option=”build_ext” --global-option=”--disable-jpeg”
 

@@ -9,7 +9,7 @@ urlpatterns = [
     #path("login/", views.Login.as_view(template_name="health_adv/first_page.html"),name='login'),
     path("login/", views.userlogin,name='login'),
 
-    path("logout/",auth_views.LogoutView.as_view(next_page=reverse_lazy('accounts:logged_out')),name="logout"),
+    path("logout/",auth_views.LogoutView.as_view(next_page=reverse_lazy('health_adv_app:index')),name="logout"),
 
     #path("signup/", views.SignUp.as_view(), name="signup"),
     path("signup/", views.usersignup, name="signup"),

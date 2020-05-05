@@ -1,0 +1,28 @@
+{% extends "health_adv_app/base.html" %}
+{% load staticfiles %}
+
+{% block mainpage %}
+<div class="container">
+
+  <h1>
+    <a href="{% url 'health_adv_app:create_report' %}">
+      <i class="fas fa-plus"></i>
+      Generate New Report
+    </a>
+  </h1>
+  <table border="5px">
+    <tr>
+      <th>ATTRIBUTES</th>
+      <th>VALUES</th>
+    </tr>
+    <tr>
+      <td>helle</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <td>hulle</td>
+      <td>78</td>
+    </tr>
+  </table>
+</div>
+{% endblock %}

@@ -1,8 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+
 from django import forms
 from . import models
+
 from django.forms.widgets import SelectDateWidget
+import datetime
 
 
 class UserCreateForm(UserCreationForm):
@@ -27,19 +30,14 @@ class LoginForm(forms.Form):
 
 
 class UserProfileInfoForm(forms.ModelForm):
-    year_list = [x for x in range(2020,1930,-1)]
+    now = datetime.datetime.now()
+    year_list = [x for x in range(now.year,1930,-1)]
     dob = forms.DateField(label='Date of Birth',
                           widget=SelectDateWidget(years=year_list))
     class Meta:
         model = models.UserProfileInfo
         fields = ['dob',
                   'gender',
-                  'weight',
                   'height',
-                  'chest_pain',
                   'age',
-                  'glucose',
-                  'cholestrol',
-                  'systolic_bp',
-                  'diastolic_bp',
                   ]

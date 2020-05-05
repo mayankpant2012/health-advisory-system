@@ -35,14 +35,14 @@ def userlogin(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('test') #redirect to user_home.html
+                return redirect('health_adv_app:user_home') #redirect to user_home.html
             else:
                 return redirect('thanks')
 
 class CreateUserProfile(LoginRequiredMixin, CreateView):
     login_url = '/'
-    redirect_field_name = 'accounts/test.html'
-    success_url = reverse_lazy('thanks')#redirect to user_home.html
+    #redirect_field_name = 'accounts/test.html'
+    success_url = reverse_lazy('health_adv_app:user_home')#redirect to user_home.html
     form_class = UserProfileInfoForm
     model = UserProfileInfo
     def form_valid(self, form):
