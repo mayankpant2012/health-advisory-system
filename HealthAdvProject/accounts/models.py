@@ -10,7 +10,7 @@ class UserProfileInfo(models.Model):
 
     # Add any additional attributes you want
     dob = models.DateField()
-    age =  models.PositiveSmallIntegerField()
+    age =  models.PositiveSmallIntegerField(default=0)
     GENDER_CHOICES = (
         (0, 'Female'),
         (1, 'Male'),

@@ -10,19 +10,20 @@
       Generate New Report
     </a>
   </h1>
-  <table border="5px">
-    <tr>
-      <th>ATTRIBUTES</th>
-      <th>VALUES</th>
-    </tr>
-    <tr>
-      <td>helle</td>
-      <td>90</td>
-    </tr>
-    <tr>
-      <td>hulle</td>
-      <td>78</td>
-    </tr>
-  </table>
+  
+
 </div>
+{% endblock %}
+
+
+{% block sidebar %}
+  <ul>
+    {% for report in report_set %}
+      <li>
+        <a href="#">
+          {{ report }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}

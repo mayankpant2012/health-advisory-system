@@ -31,7 +31,7 @@ class LoginForm(forms.Form):
 
 class UserProfileInfoForm(forms.ModelForm):
     now = datetime.datetime.now()
-    year_list = [x for x in range(now.year,1930,-1)]
+    year_list = [x for x in range(now.year,1900,-1)]
     dob = forms.DateField(label='Date of Birth',
                           widget=SelectDateWidget(years=year_list))
     class Meta:
@@ -39,5 +39,4 @@ class UserProfileInfoForm(forms.ModelForm):
         fields = ['dob',
                   'gender',
                   'height',
-                  'age',
                   ]

@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from . import predictors
+from datetime import date
 
 class Report(models.Model):
     # Create relationship (don't inherit from User!)
@@ -48,7 +49,7 @@ class Report(models.Model):
                                                     default=0)
     chest_pain = models.PositiveSmallIntegerField(choices=CHEST_PAIN_CHOICES,
                                                   default=0)
-    generation_date = models.DateField(blank=True, null=True)
+    generation_date = models.DateField(default=timezone.now)
 
     #exercise induced angina:
     #Angina is chest pain or discomfort caused when your heart muscle doesn't get enough oxygen-rich blood.
@@ -73,9 +74,15 @@ class Report(models.Model):
 
 
     #OUTPUTS
-    heart_disease = models.PositiveSmallIntegerField(blank=True, null=True)
+    heart_disease = models.PositiveSmallIntegerField(default=0,blank=True, null=True)
     diabetes = models.PositiveSmallIntegerField(blank=True, null=True)
     stroke = models.PositiveSmallIntegerField(blank=True, null=True)
+
+
+    #META class
+    class Meta:
+        ordering = ['-generation_date']
+
 
     #METHODS
     def calculate_fbs(self):
@@ -90,12 +97,12 @@ class Report(models.Model):
         self.bmi = bmi
         self.save()
 
-    def publish(self): #execute in the end.
-        self.generation_date = timezone.now()
-        self.save()
-
     def calculate_age(self):
-        pass
+        today = date.today()
+        born = self.user.info.dob
+        age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        self.user.info.age = age
+        self.user.info.save()
 
     def calculate_heart_disease(self):
         pass
@@ -111,8 +118,15 @@ class Report(models.Model):
         self.save()
 
     def calculate_stroke(self):
-        pass
+        input_list = [self.user.info.age,
+                      self.hypertension,
+                      self.heart_disease,
+                      self.bmi,
+                      self.residence_type,
+                      self.user.info.gender]
+        self.stroke = predictors.stroke_predictor(input_list)
+        self.save()
 
     def __str__(self):
         # Built-in attribute of django.contrib.auth.models.User !
-        return self.user.username
+        return self.generation_date.strftime('%d %b %Y')

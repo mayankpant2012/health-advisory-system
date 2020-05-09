@@ -35,7 +35,10 @@ def test(request):
 
 @login_required
 def user_home(request):
-    return render(request, 'health_adv_app/user_home.html')
+    report_set = request.user.report_set.all()
+    return render(request,
+                  'health_adv_app/user_home.html',
+                  context={'report_set':report_set})
 
 
 class CreateReport(LoginRequiredMixin, CreateView):
@@ -46,6 +49,9 @@ class CreateReport(LoginRequiredMixin, CreateView):
     model = Report
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.calculate_age()
         form.instance.calculate_bmi()
+        form.instance.calculate_fbs()
         form.instance.calculate_diabetes()
+        form.instance.calculate_stroke()
         return super().form_valid(form)
