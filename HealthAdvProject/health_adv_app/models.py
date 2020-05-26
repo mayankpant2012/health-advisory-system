@@ -50,7 +50,7 @@ class Report(models.Model):
     chest_pain = models.PositiveSmallIntegerField(choices=CHEST_PAIN_CHOICES,
                                                   default=0)
     generation_date = models.DateField(default=timezone.now)
-
+    
     #exercise induced angina:
     #Angina is chest pain or discomfort caused when your heart muscle doesn't get enough oxygen-rich blood.
     exang = models.PositiveSmallIntegerField(choices = EXANG_CHOICES,
@@ -105,7 +105,16 @@ class Report(models.Model):
         self.user.info.save()
 
     def calculate_heart_disease(self):
-        pass
+        input_list = [self.user.info.age,
+                      self.user.info.gender,
+                      self.systolic_bp,
+                      self.cholestrol,
+                      self.fbs,
+                      self.exang,
+                      self.chest_pain,
+                      self.rest_ecg,]
+        self.heart_disease = predictors.heart_disease_predictor(input_list)
+        self.save()
 
     def calculate_diabetes(self):
         input_list = [self.pregnancies,

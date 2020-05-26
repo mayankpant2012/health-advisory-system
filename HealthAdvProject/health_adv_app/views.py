@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from accounts.forms import LoginForm, UserCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, DeleteView
 from django.contrib.auth.decorators import login_required
 
 from .models import Report
@@ -36,9 +36,13 @@ def test(request):
 @login_required
 def user_home(request):
     report_set = request.user.report_set.all()
+    latest_report = 0
+    if report_set:
+        latest_report = report_set[0]
     return render(request,
                   'health_adv_app/user_home.html',
-                  context={'report_set':report_set})
+                  context={'report_set': report_set,
+                            'latest_report': latest_report},)
 
 
 class CreateReport(LoginRequiredMixin, CreateView):
@@ -54,4 +58,15 @@ class CreateReport(LoginRequiredMixin, CreateView):
         form.instance.calculate_fbs()
         form.instance.calculate_diabetes()
         form.instance.calculate_stroke()
+        form.instance.calculate_heart_disease()
         return super().form_valid(form)
+
+
+class ReportDetailView(LoginRequiredMixin, DetailView):
+    model = Report
+    template_name = 'health_adv_app/report_detail.html'
+
+
+class DeleteReportView(LoginRequiredMixin, DeleteView):
+    model = Report
+    success_url = reverse_lazy("health_adv_app:user_home")

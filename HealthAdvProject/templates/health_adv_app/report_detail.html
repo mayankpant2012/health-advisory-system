@@ -1,0 +1,37 @@
+{% extends "health_adv_app/base.html" %}
+{% load bootstrap4 %}
+{% load staticfiles %}
+
+ {% block mainpage %}
+ {% if user.is_authenticated and report.user == user %}
+ <small class="form-text text-muted">Generated on:
+   <i class="fas fa-clock"></i>
+   <time>{{latest_report.generation_date}}</time>
+ </small>
+ <table>
+   <tr>
+     <td>Weight:</td>
+     <td>{{report.weight}}</td>
+   </tr>
+   <tr>
+     <td>Blood Sugar(fasting)</td>
+     <td>{{report.glucose}}</td>
+   </tr>
+   <tr>
+     <td>Cholestrol</td>
+     <td>{{report.cholestrol}}</td>
+   </tr>
+   </table>
+   {% else %}
+   <h1>Access Denied.</h1>
+  {% endif %}
+ {% endblock %}
+
+{% block sidebar %}
+{% if user.is_authenticated and report.user == user %}
+<a type="button" href="{% url 'health_adv_app:report_delete' report.id %}" class="btn btn-danger">
+  <i class="fas fa-trash-alt"></i>
+  Delete
+</a>
+{% endif %}
+{% endblock %}

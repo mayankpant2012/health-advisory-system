@@ -1,5 +1,6 @@
 from django import forms
 from . import models
+from django.utils.translation import gettext_lazy as _
 
 class ReportForm(forms.ModelForm):
     class Meta:
@@ -16,7 +17,15 @@ class ReportForm(forms.ModelForm):
                    'diabetes',
                    'stroke',
                    ]
-
+        labels = {
+            'glucose': _('Blood Sugar'),
+            'cholestrol': _('Total Cholestrol'),
+            'systolic_bp': _('Systolic Blood Pressure'),
+            'diastolic_bp': _('Diastolic Blood Pressure'),
+            'hypertension': _('Do you have hypertension?'),
+            'exang': _('Do you experience chest pain during exercising?'),
+            'chest_pain': _('Do you experience chest pain in your day to day life?')
+        }
 
 
 #HELP

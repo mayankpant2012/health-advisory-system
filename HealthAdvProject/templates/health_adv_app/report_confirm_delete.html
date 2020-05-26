@@ -1,0 +1,13 @@
+{% extends "health_adv_app/base.html" %}
+{% load bootstrap4 %}
+{% load staticfiles %}
+
+{% block mainpage %}
+<form method="POST">
+	{% csrf_token %}
+  <p>Are you sure you want to delete report dated {{ object.generation_date }}?</p>
+	<input type="submit" value="Confirm Delete" class="btn btn-danger btn-large">
+	<a href="{% url 'health_adv_app:report_detail' pk=object.pk %}" class="btn btn-simple btn-large btn-default">Cancel</a>
+</form>
+
+{% endblock %}

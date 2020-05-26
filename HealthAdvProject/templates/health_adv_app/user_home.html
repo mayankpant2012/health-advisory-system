@@ -10,8 +10,26 @@
       Generate New Report
     </a>
   </h1>
-  
-
+  {% if latest_report %}
+  <small class="form-text text-muted">Generated on:
+    <i class="fas fa-clock"></i>
+    <time>{{latest_report.generation_date}}</time>
+  </small>
+  <table>
+    <tr>
+      <td>Weight:</td>
+      <td>{{latest_report.weight}}</td>
+    </tr>
+    <tr>
+      <td>Blood Sugar(fasting)</td>
+      <td>{{latest_report.glucose}}</td>
+    </tr>
+    <tr>
+      <td>Cholestrol</td>
+      <td>{{latest_report.cholestrol}}</td>
+    </tr>
+  </table>
+  {% endif %}
 </div>
 {% endblock %}
 
@@ -20,7 +38,7 @@
   <ul>
     {% for report in report_set %}
       <li>
-        <a href="#">
+        <a href="{% url 'health_adv_app:report_detail' report.id %}">
           {{ report }}
         </a>
       </li>
