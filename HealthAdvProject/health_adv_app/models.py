@@ -50,7 +50,7 @@ class Report(models.Model):
     chest_pain = models.PositiveSmallIntegerField(choices=CHEST_PAIN_CHOICES,
                                                   default=0)
     generation_date = models.DateField(default=timezone.now)
-    
+
     #exercise induced angina:
     #Angina is chest pain or discomfort caused when your heart muscle doesn't get enough oxygen-rich blood.
     exang = models.PositiveSmallIntegerField(choices = EXANG_CHOICES,
@@ -67,18 +67,17 @@ class Report(models.Model):
                                                       default=0)#0 means rural
 
 
-    #DEFAULTS
-    slope = models.PositiveSmallIntegerField(default=0)
-    ca = models.PositiveSmallIntegerField(default=0)
-    thal = models.PositiveSmallIntegerField(default=0)
-
 
     #OUTPUTS
     heart_disease = models.PositiveSmallIntegerField(default=0,blank=True, null=True)
     diabetes = models.PositiveSmallIntegerField(blank=True, null=True)
     stroke = models.PositiveSmallIntegerField(blank=True, null=True)
 
-
+    #GRAPHS (set a normal line also)
+    glucose_plot = models.ImageField(upload_to = 'images/plots/', blank=True)
+    bp_plot = models.ImageField(blank=True)
+    cholestrol_plot = models.ImageField(blank=True)
+    weight_plot = models.ImageField(blank=True)
     #META class
     class Meta:
         ordering = ['-generation_date']

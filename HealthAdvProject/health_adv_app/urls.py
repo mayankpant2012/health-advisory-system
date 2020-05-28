@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from health_adv_app import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 app_name = 'health_adv_app'
 
 urlpatterns = [

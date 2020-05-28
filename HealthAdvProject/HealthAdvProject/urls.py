@@ -17,10 +17,13 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from health_adv_app import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('',include('health_adv_app.urls')),
     path('accounts/',include('accounts.urls')),
     path('admin/', admin.site.urls),
     path('thanks/',views.thanks,name='thanks'),
     path('testpage/',views.test,name='test'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
