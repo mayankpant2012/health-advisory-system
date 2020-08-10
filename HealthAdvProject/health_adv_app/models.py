@@ -43,7 +43,10 @@ class Report(models.Model):
     cholestrol = models.FloatField(default=0)
     pregnancies = models.PositiveSmallIntegerField(default=0)#dont show in form if sex is male i.e. 1
     skin_thickness = models.PositiveSmallIntegerField(default=0)
+
+    #higher number
     systolic_bp = models.PositiveSmallIntegerField(default=0)
+    #lower number
     diastolic_bp = models.PositiveSmallIntegerField(default=0)
     hypertension = models.PositiveSmallIntegerField(choices=HYPERTENSION_CHOICES,
                                                     default=0)
@@ -66,8 +69,6 @@ class Report(models.Model):
     residence_type = models.PositiveSmallIntegerField(choices=RESIDENCE_TYPE_CHOICES,
                                                       default=0)#0 means rural
 
-
-
     #OUTPUTS
     heart_disease = models.PositiveSmallIntegerField(default=0,blank=True, null=True)
     diabetes = models.PositiveSmallIntegerField(blank=True, null=True)
@@ -75,9 +76,9 @@ class Report(models.Model):
 
     #GRAPHS (set a normal line also)
     glucose_plot = models.ImageField(upload_to = 'images/plots/', blank=True)
-    bp_plot = models.ImageField(blank=True)
-    cholestrol_plot = models.ImageField(blank=True)
-    weight_plot = models.ImageField(blank=True)
+    bp_plot = models.ImageField(upload_to = 'images/plots/', blank=True)
+    cholestrol_plot = models.ImageField(upload_to = 'images/plots/', blank=True)
+    weight_plot = models.ImageField(upload_to = 'images/plots/', blank=True)
     #META class
     class Meta:
         ordering = ['-generation_date']
@@ -137,4 +138,4 @@ class Report(models.Model):
 
     def __str__(self):
         # Built-in attribute of django.contrib.auth.models.User !
-        return self.generation_date.strftime('%d %b %Y')
+        return self.generation_date.strftime("%d %b,%Y")

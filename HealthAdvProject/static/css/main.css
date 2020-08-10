@@ -44,8 +44,43 @@ article {
   background-color: #e9f5f8;
 }
 
+table{
+  width: 100%;
+  border: 3px solid #606060;
+  border-radius: 25px;
+  margin-bottom: 50px;
+}
 
+td{
+  font-weight: bold;
+  font-size: 18px;
+  border: 1px solid black;
+}
 
+th{
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid black;
+}
+
+.risky{
+  width: 100%;
+  border: 5px solid red;
+  border-radius: 25px;
+  padding: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: #F5F5F5;
+}
+
+.non_risky{
+  width: 100%;
+  border: 5px solid green;
+  border-radius: 25px;
+  padding: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: #F5F5F5;
 }
 
 /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */

@@ -4,24 +4,242 @@
 
  {% block mainpage %}
  {% if user.is_authenticated and report.user == user %}
- <small class="form-text text-muted">Generated on:
-   <i class="fas fa-clock"></i>
-   <time>{{latest_report.generation_date}}</time>
- </small>
- <table>
-   <tr>
-     <td>Weight:</td>
-     <td>{{report.weight}}</td>
-   </tr>
-   <tr>
-     <td>Blood Sugar(fasting)</td>
-     <td>{{report.glucose}}</td>
-   </tr>
-   <tr>
-     <td>Cholestrol</td>
-     <td>{{report.cholestrol}}</td>
-   </tr>
-   </table>
+{# start report #}
+<small class="form-text text-muted">Generated on:
+  <i class="fas fa-clock"></i>
+  <time>{{latest_report.generation_date}}</time>
+</small>
+<br>
+<div class="container">
+  <br>
+  <table>
+    <tr align="center" height="100">
+      <th>FACTOR</th>
+      <th>VALUE</th>
+      <th>IDEAL RANGE</th>
+      <th>AT RISK RANGE</th>
+    </tr>
+    <tr align="center" height="100">
+      <td>Weight</td>
+      <td>
+        {% if latest_report.bmi < 18 or latest_report.bmi > 25 %}
+          <p style="color: red;">{{latest_report.weight}}</p>
+        {% else %}
+          <p style="color: green;">{{latest_report.weight}}</p>
+        {% endif %}
+        <td>
+          {{ideal_weight_low}} to {{ideal_weight_high}}
+        </td>
+        <td>
+          less than {{at_risk_weight_low}} or more than {{at_risk_weight_high}}
+        </td>
+    </tr>
+    <tr align="center" height="100">
+      <td>BMI</td>
+      <td>
+        {% if latest_report.bmi < 18 or latest_report.bmi > 25 %}
+          <p style="color: red;">{{int_bmi}}</p>
+        {% else %}
+          <p style="color: green;">{{int_bmi}}</p>
+        {% endif %}
+        <td>
+            19 to 23
+        </td>
+        <td>
+          less than 18 or more than 25
+        </td>
+    </tr>
+    <tr align="center" height="100">
+      <td>Blood Sugar (fasting)</td>
+      <td>
+        {% if latest_report.glucose < 60 or latest_report.glucose > 120 %}
+          <p style="color: red;">{{latest_report.glucose}}</p>
+        {% else %}
+          <p style="color: green;">{{latest_report.glucose}}</p>
+        {% endif %}
+      </td>
+      <td>
+        70 to 99
+      </td>
+      <td>
+        less than 60 or more than 120
+      </td>
+    </tr>
+    <tr align="center" height="100">
+      <td>Cholestrol</td>
+      <td>
+        {% if latest_report.cholestrol > 240 %}
+          <p style="color: red;">{{latest_report.cholestrol}}</p>
+        {% else %}
+          <p style="color: green;">{{latest_report.cholestrol}}</p>
+        {% endif %}
+      </td>
+      <td>
+        less than 200
+      </td>
+      <td>
+        more than 240
+      </td>
+    </tr>
+    <tr align="center" height="100">
+      <td>Blood Pressure</td>
+      <td>
+        {% if latest_report.systolic_bp > 140 or latest_report.systolic_bp < 90 or latest_report.diastolic_bp < 60 or latest_report.diastolic_bp > 90 %}
+          <p style="color: red;">{{latest_report.systolic_bp}}/{{latest_report.diastolic_bp}}</p>
+        {% else %}
+          <p style="color: green;">{{latest_report.systolic_bp}}/{{latest_report.diastolic_bp}}</p>
+        {% endif %}
+      </td>
+      <td>
+          100/70 to 120/80
+      </td>
+      <td>
+        less than 90/60 or more than 140/90
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+
+<div class="container">
+  {% if latest_report.heart_disease == 1 %}
+  <div class="risky">
+    <h2>Heart Disease</h2>
+    <p>With your current health state, you have a risk to develop a heart disease in the future.</p>
+    <p>Please check which parameters are in at risk category (marked red in the above report).</p>
+    <p>This does not mean you have a heart disease. You just have high chances of developing one in future</p>
+    <p>These are some common symptoms which should not be generally ignored:</p>
+    <ol>
+      <li>Chest Discomfort.</li>
+      <li>Nausea, Indigestion, Heartburn, or Stomach Pain.</li>
+      <li>Feeling Dizzy or Lightheaded.</li>
+      <li>Throat or Jaw Pain.</li>
+      <li>Getting Exhausted Easily.</li>
+    </ol>
+    <p>If you experience the above symptoms, you should consult a doctor. And get a Echocardiogram (ECG) test done.</p>
+    <p>You dont need to worry. Just improve your lifestyle and take care of the following factors:</p>
+    <ol>
+      <li>Control your blood pressure.</li>
+      <li>Keep your cholesterol and triglyceride levels under control.</li>
+      <li>Stay at a healthy weight.</li>
+      <li>Eat a healthy diet.</li>
+      <li>Get regular exercise.</li>
+      <li>Limit alcohol.</li>
+      <li>Dont Smoke.</li>
+      <li>Manage Stress.</li>
+      <li>Keep blood sugar under control.</li>
+      <li>Get enough sleep.</li>
+    </ol>
+  </div>
+  {% else %}
+  <div class="non_risky">
+    <h2>Heart Disease</h2>
+    <p>Currently you are in no risk of developing a heart disease in future.</p>
+    <p>But you should follow these tips to stay out of risk in the future:</p>
+    <p>
+      1. Control your blood pressure.
+      2. Keep your cholesterol and triglyceride levels under control.
+      3. Stay at a healthy weight.
+      4. Eat a healthy diet.
+      5. Get regular exercise.
+      6. Limit alcohol.
+      7. Dont Smoke.
+      8. Manage Stress.
+      9. Keep blood sugar under control.
+      10. Get enough sleep.
+    </p>
+  </div>
+  {% endif %}
+
+  {% if latest_report.stroke == 1 %}
+  <div class="risky">
+    <h2>Stroke</h2>
+    <p>According to our risk analysis system, with your current health state, you have a risk to develop stroke symptoms in the future.</p>
+    <p>Please check which parameters are in at risk category (marked red in the above report).</p>
+    <p>But this can be avoided by doing some simple lifestyle changes as follows:</p>
+    <ol>
+      <li>Maintain a healthy blood pressure</li>
+      <li>Lose extra body fat.</li>
+      <li>Do regular exercise.</li>
+      <li>If you consume alcohol, do it in moderation.</li>
+      <li>Maintain a healthy blood sugar.</li>
+      <li>Quit smoking.</li>
+    </ol>
+  </div>
+  {% else %}
+  <div class="non_risky">
+    <h2>Stroke</h2>
+    <p>Currently you are in no risk of developing a stroke in future.</p>
+    <p>But you should follow these tips to stay out of risk in the future:</p>
+    <ol>
+      <li>Maintain a healthy blood pressure</li>
+      <li>Lose extra body fat.</li>
+      <li>Do regular exercise.</li>
+      <li>If you consume alcohol, do it in moderation.</li>
+      <li>Maintain a healthy blood sugar.</li>
+      <li>Quit smoking.</li>
+    </ol>
+  </div>
+  {% endif %}
+
+  {% if latest_report.diabetes == 1 %}
+  <div class="risky">
+    <h2>Diabetes</h2>
+    <p>With your current health state, you have a risk to develop diabetes in the future.</p>
+    <p>Please check which parameters are in at risk category (marked red in the above report).</p>
+    <p>This does not mean you have diabetes. You just have high chances of having diabetes in future.</p>
+    <p>These are some common symptoms which should not be generally ignored:</p>
+    <ol>
+      <li>Urinating often.</li>
+      <li>Feeling very thirsty.</li>
+      <li>Feeling very hungry—even though you are eating.</li>
+      <li>Extreme fatigue.</li>
+      <li>Blurry vision</li>
+      <li>Cuts/bruises that are slow to heal.</li>
+      <li>Weight loss—even though you are eating more (type 1).</li>
+      <li>Tingling, pain, or numbness in the hands/feet (type 2).</li>
+    </ol>
+
+    <p>If you experience the above symptoms, you should consult a doctor.</p>
+    <p>Following tests are done to detect diabetes.</p>
+    <ol>
+      <li>Fasting blood sugar test.</li>
+      <li>Two-hour postprandial test.</li>
+    </ol>
+    <p>You dont need to worry. Just improve your lifestyle and take care of the following factors:</p>
+    <ol>
+      <li>Cut Sugar and Refined Carbs From Your Diet.</li>
+      <li>Work Out Regularly.</li>
+      <li>Drink Water as Your Primary Beverage.</li>
+      <li>Lose Weight If You’re Overweight or Obese.</li>
+      <li>Quit Smoking.</li>
+      <li>Follow a Very-Low-Carb Diet.</li>
+      <li>Avoid Sedentary lifestyle.</li>
+      <li>Eat a High-Fiber Diet.</li>
+      <li>Minimize Your Intake of Processed Foods.</li>
+    </ol>
+  </div>
+  {% else %}
+  <div class="non_risky">
+    <h2>Diabetes</h2>
+    <p>Currently you are in no risk of developing diabetes in future.</p>
+    <p>But you should follow these tips to stay out of risk in the future also:</p>
+    <ol>
+      <li>Cut Sugar and Refined Carbs From Your Diet.</li>
+      <li>Work Out Regularly.</li>
+      <li>Drink Water as Your Primary Beverage.</li>
+      <li>Lose Weight If You’re Overweight or Obese.</li>
+      <li>Quit Smoking.</li>
+      <li>Follow a Very-Low-Carb Diet.</li>
+      <li>Avoid Sedentary lifestyle.</li>
+      <li>Eat a High-Fiber Diet.</li>
+      <li>Minimize Your Intake of Processed Foods.</li>
+    </ol>
+  </div>
+  {% endif %}
+</div>
+
+{# end report #}
    {% else %}
    <h1>Access Denied.</h1>
   {% endif %}

@@ -16,6 +16,10 @@ class ReportForm(forms.ModelForm):
                    'heart_disease',
                    'diabetes',
                    'stroke',
+                   'glucose_plot',
+                   'weight_plot',
+                   'cholestrol_plot',
+                   'bp_plot',
                    ]
         labels = {
             'glucose': _('Blood Sugar'),
